@@ -79,14 +79,4 @@ public class ChatInterface extends JFrame {
             chatArea.append(message + "\n");
         }
     }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                ChatInterface chatInterface = new ChatInterface("default");
-                chatInterface.setVisible(true);
-            }
-        });
-    }
 }

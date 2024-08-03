@@ -106,7 +106,7 @@ public class NetworkSetup extends JFrame {
         String name = nameField.getText();
         String ip = ipField.getText();
         int port = Integer.parseInt(portField.getText());       
-        ChatInterface chat = new ChatInterface(name);;
+        ChatInterface chat = new ChatInterface(name);
 
         if (role == "Server") {
             new ServerTCP(port,chat);
