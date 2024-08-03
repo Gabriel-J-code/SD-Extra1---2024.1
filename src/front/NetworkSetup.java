@@ -1,14 +1,22 @@
+package front;
+
 import javax.swing.*;
 import javax.swing.text.AbstractDocument;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DocumentFilter;
+import javax.swing.text.MaskFormatter;
 import javax.swing.text.NumberFormatter;
+
+import back.ClientTCP;
+import back.ServerTCP;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.text.NumberFormat;
+import java.text.ParseException;
 
 public class NetworkSetup extends JFrame {
     private JComboBox<String> roleSelector;
@@ -26,7 +34,7 @@ public class NetworkSetup extends JFrame {
         setLayout(new GridLayout(6, 1));
 
         // Campo de seleção para Server/Client
-        roleSelector = new JComboBox<>(new String[] {"Server", "Client"});
+        roleSelector = new JComboBox<>(new String[] {"Client", "Server"});
         roleSelector.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -45,7 +53,7 @@ public class NetworkSetup extends JFrame {
         // Campo de texto para IP com filtro de entrada
         ipField = new JTextField();
         ((AbstractDocument) ipField.getDocument()).setDocumentFilter(new IPAddressFilter());
-        ipField.setEnabled(false); // Inicia desativado
+        ipField.setEnabled(true); 
 
         NumberFormat format = NumberFormat.getIntegerInstance();
         format.setGroupingUsed(false);
@@ -56,14 +64,16 @@ public class NetworkSetup extends JFrame {
         numberFormatter.setAllowsInvalid(false);
         numberFormatter.setCommitsOnValidEdit(true);
         portField = new JFormattedTextField(numberFormatter);
+        portField.setText("6666");
 
         // Botão OK
         okButton = new JButton("OK");
         okButton.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                startNetwork();
+            public void actionPerformed(ActionEvent e) {                
                 dispose(); // Fecha a janela
+                ChatInterface chat = startNetwork();
+                chat.setVisible(true);
             }
         });
 
@@ -92,13 +102,29 @@ public class NetworkSetup extends JFrame {
         setVisible(true);
     }
 
-    private void startNetwork() {
+    private ChatInterface startNetwork() {
         String role = roleSelector.getSelectedItem().toString();
+        System.out.println(role);
         String name = nameField.getText();
         String ip = ipField.getText();
-        int port = Integer.parseInt(portField.getText());
+        int port = Integer.parseInt(portField.getText());       
+        ChatInterface chat = new ChatInterface(name);;
 
-        
+        if (role == "Server") {
+            new ServerTCP(port,chat);
+            chat.setVisible(true);                   
+        }else{
+            try {
+                new ClientTCP(ip, port, chat);
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            chat.setVisible(true);            
+        }
+
+        return chat;
+
         // Aqui você pode adicionar o código para manipular as informações
         /*System.out.println("Papel: " + role);
         System.out.println("IP: " + ip);
