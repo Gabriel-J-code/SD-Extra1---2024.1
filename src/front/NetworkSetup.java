@@ -5,7 +5,6 @@ import javax.swing.text.AbstractDocument;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DocumentFilter;
-import javax.swing.text.MaskFormatter;
 import javax.swing.text.NumberFormatter;
 
 import back.ClientTCP;
@@ -16,7 +15,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.text.NumberFormat;
-import java.text.ParseException;
 
 public class NetworkSetup extends JFrame {
     private JComboBox<String> roleSelector;
@@ -117,7 +115,6 @@ public class NetworkSetup extends JFrame {
             try {
                 new ClientTCP(ip, port, chat);
             } catch (IOException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
             chat.setVisible(true);            

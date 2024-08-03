@@ -1,6 +1,5 @@
 package back;
 import java.io.DataInputStream;
-import java.io.EOFException;
 import java.io.IOException;
 
 public class ClientMessageCatcher extends Thread{
@@ -27,7 +26,6 @@ public class ClientMessageCatcher extends Thread{
             try {
                 client.getSocket().close();
             } catch (IOException e1) {
-                // TODO Auto-generated catch block
                 e1.printStackTrace();
             }
         } 
@@ -37,7 +35,6 @@ public class ClientMessageCatcher extends Thread{
         try {
             in.close();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }

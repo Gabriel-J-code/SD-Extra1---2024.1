@@ -11,8 +11,7 @@ public class ServerTCPClientCatcher extends Thread{
         this.server = serverTCP;
         try {
             serverSocket =  new ServerSocket(serverPort);
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
+        } catch (IOException e) { 
             e.printStackTrace();
         }
     }
@@ -35,7 +34,6 @@ public class ServerTCPClientCatcher extends Thread{
         try {
             serverSocket.close();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
